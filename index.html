@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Table des Bebs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#FDF8F5;min-height:100vh;font-family:'DM Sans',sans-serif}
+.wrap{max-width:640px;margin:0 auto;padding:1.5rem 1rem 4rem}
+.logo-sub{font-family:'Cormorant Garamond',Georgia,serif;font-size:12px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:#B5908A;text-align:center;padding-top:1.5rem}
+.logo-main{font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;font-weight:400;color:#3D2B27;letter-spacing:.04em;text-align:center;margin-top:4px}
+.logo-main em{font-style:italic;color:#B5908A}
+.divider{width:40px;height:1px;background:#E8D5CC;margin:.9rem auto}
+.intro-text{font-size:14px;color:#8A6E68;text-align:center;line-height:1.7;margin-bottom:2rem}
+.btn-primary{display:block;margin:0 auto;background:#3D2B27;color:#FDF8F5;border:none;border-radius:40px;padding:14px 40px;font-family:'DM Sans',sans-serif;font-size:14px;letter-spacing:.06em;cursor:pointer;min-height:48px;text-align:center;width:fit-content}
+.round-badge{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#B5908A;text-align:center;margin-bottom:.4rem}
+.progress-bar{width:100%;height:3px;background:#F0E4DF;border-radius:10px;margin:.8rem 0 1rem}
+.progress-fill{height:3px;background:#C9A09A;border-radius:10px;transition:width .4s ease}
+.btn-back{display:flex;align-items:center;gap:6px;background:transparent;border:none;color:#B5908A;font-size:12px;cursor:pointer;margin:0 0 .6rem;padding:4px 0;min-height:44px}
+.question-card{background:#fff;border-radius:20px;border:1px solid #F0E4DF;padding:2rem 1.5rem;text-align:center;margin-bottom:1rem;position:relative;overflow:hidden}
+.q-decor{position:absolute;font-size:80px;opacity:.06;top:-10px;right:-10px;pointer-events:none}
+.q-icon{font-size:34px;margin-bottom:.8rem}
+.q-text{font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;color:#3D2B27;line-height:1.3;margin-bottom:.4rem}
+.q-sub{font-size:13px;color:#A08880;margin-bottom:1.5rem}
+.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-yes{background:#3D2B27;color:#FDF8F5;border:none;border-radius:40px;padding:13px 32px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;min-height:48px}
+.btn-no{background:transparent;color:#8A6E68;border:1px solid #E0CECA;border-radius:40px;padding:13px 32px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;min-height:48px}
+.range-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.2rem}
+.range-btn{border-radius:12px;border:1.5px solid #F0E4DF;padding:14px 10px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;background:#fff;color:#6A5450;text-align:center;min-height:52px;transition:all .2s}
+.range-btn.selected{border-color:#3D2B27;background:#3D2B27;color:#FDF8F5}
+.btn-continue{display:block;width:100%;background:#3D2B27;color:#FDF8F5;border:none;border-radius:40px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;min-height:48px}
+.counter{text-align:center;font-size:11px;color:#C9B0AA;margin-top:.5rem}
+.results-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;color:#3D2B27;text-align:center;margin:1.2rem 0 .3rem}
+.results-sub{font-size:13px;color:#A08880;text-align:center;margin-bottom:.8rem}
+.sort-row{display:flex;gap:8px;justify-content:center;margin-bottom:1.2rem;flex-wrap:wrap}
+.sort-btn{background:transparent;border:1px solid #E0CECA;border-radius:20px;padding:7px 16px;font-family:'DM Sans',sans-serif;font-size:12px;color:#8A6E68;cursor:pointer;min-height:36px}
+.sort-btn.active{background:#3D2B27;border-color:#3D2B27;color:#FDF8F5}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+
+/* OPTION D — fond coloré par catégorie */
+.resto-card{border-radius:18px;border:1.5px solid transparent;padding:1.2rem;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.resto-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.cat-japan-korea{background:#FFF4F0;border-color:#F5D5C8}
+.cat-asian{background:#FFF8EC;border-color:#F5E4BC}
+.cat-italian{background:#F2F8F0;border-color:#C8E0C0}
+.cat-world{background:#F0F4FF;border-color:#C8D4F0}
+
+.card-hint{font-size:10px;color:#B0A0A0;letter-spacing:.06em;text-align:right;margin-bottom:5px}
+.card-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.card-emoji{font-size:28px;flex-shrink:0}
+.card-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:500;color:#3D2B27;line-height:1.2}
+.card-cuisine{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#B5908A;margin-top:2px}
+.card-desc{font-size:12.5px;color:#6A5450;line-height:1.55;margin-bottom:10px}
+.card-footer{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.pill{display:inline-block;font-size:11px;padding:3px 9px;border-radius:20px;background:rgba(255,255,255,0.7);color:#6A5450;border:1px solid rgba(0,0,0,0.08)}
+.pill-resa{background:rgba(200,230,200,0.5);color:#3A6040;border-color:rgba(100,180,100,0.2)}
+.pill-resa-no{background:rgba(230,200,200,0.5);color:#6A3030;border-color:rgba(180,100,100,0.2)}
+
+.empty-state{text-align:center;padding:3rem 1rem}
+.empty-emoji{font-size:48px;margin-bottom:1rem}
+.empty-text{font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;color:#3D2B27;margin-bottom:.5rem}
+.empty-sub{font-size:13px;color:#A08880;margin-bottom:1.5rem}
+.btn-restart{display:block;margin:.8rem auto 0;background:transparent;color:#B5908A;border:none;font-size:12px;letter-spacing:.06em;cursor:pointer;text-decoration:underline;padding:8px}
+
+.detail-wrap{margin-top:1rem}
+.detail-back{display:flex;align-items:center;gap:6px;background:transparent;border:none;color:#B5908A;font-size:13px;cursor:pointer;margin-bottom:1rem;padding:4px 0;min-height:44px}
+.detail-card{background:#fff;border-radius:20px;border:1px solid #F0E4DF;padding:1.8rem 1.5rem}
+.detail-emoji{font-size:44px;text-align:center;margin-bottom:.8rem}
+.detail-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;color:#3D2B27;text-align:center;margin-bottom:3px}
+.detail-cuisine{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#B5908A;text-align:center;margin-bottom:1.2rem}
+.detail-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid #F0E4DF;font-size:13px;gap:12px}
+.detail-label{color:#A08880;flex-shrink:0}
+.detail-val{color:#3D2B27;font-weight:500;text-align:right}
+.detail-desc{font-size:13px;color:#6A5450;line-height:1.6;margin:1rem 0}
+.btn-maps{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#3D2B27;color:#FDF8F5;border:none;border-radius:40px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;text-decoration:none;margin-top:1rem;min-height:48px}
+.btn-resa{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:transparent;color:#3D2B27;border:1px solid #E0CECA;border-radius:40px;padding:13px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;text-decoration:none;margin-top:.6rem;min-height:48px}
+.btn-resa-disabled{opacity:.4;cursor:default}
+
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+const restaurants = [
+  {id:1,name:"Gyoza Bar",cuisine:"Japonais",category:"japan-korea",arr:"2e",zone:true,price:20,priceLabel:"~15-25€",resa:false,resaNote:"Pas de résa — arriver à l'ouverture",address:"56 Passage des Panoramas",maps:"https://maps.google.com/?q=Gyoza+Bar+56+Passage+des+Panoramas+Paris",url:null,emoji:"🥟",desc:"Gyozas maison au comptoir dans le Passage des Panoramas"},
+  {id:2,name:"Takesan Donabe Ramen",cuisine:"Japonais",category:"japan-korea",arr:"2e",zone:true,price:17,priceLabel:"~15-20€",resa:false,resaNote:"Pas de résa — y aller tôt",address:"20 rue de la Michodière",maps:"https://maps.google.com/?q=Takesan+Donabe+Ramen+Paris",url:null,emoji:"🍜",desc:"Ramen en marmite en terre cuite, bouillon miso artisanal"},
+  {id:3,name:"Higuma",cuisine:"Japonais",category:"japan-korea",arr:"1er",zone:true,price:13,priceLabel:"~10-15€",resa:false,resaNote:"Pas de résa — cantine japonaise",address:"32 bis rue Sainte-Anne",maps:"https://maps.google.com/?q=Higuma+32+rue+Sainte-Anne+Paris",url:null,emoji:"🍜",desc:"Institution de la rue Sainte-Anne, lamen et donburi"},
+  {id:4,name:"Dong Né Chicken",cuisine:"Coréen",category:"japan-korea",arr:"1er",zone:true,price:17,priceLabel:"~15-20€",resa:false,resaNote:"Conseillé le week-end",address:"51 rue de Richelieu",maps:"https://maps.google.com/?q=Dong+Ne+Chicken+Paris",url:null,emoji:"🍗",desc:"Poulet frit coréen dans un décor de ruelle de Séoul"},
+  {id:5,name:"Hallyu Kitchen",cuisine:"Coréen",category:"japan-korea",arr:"9e",zone:true,price:30,priceLabel:"~25-35€",resa:true,resaNote:"Résa conseillée",address:"6 rue Henry Monnier",maps:"https://maps.google.com/?q=Hallyu+Kitchen+Paris",url:"https://www.hallyugroup.com/",emoji:"🍗",desc:"Korean fried chicken, K-BBQ et cocktails à SoPi"},
+  {id:6,name:"SuperMian",cuisine:"Asiatique",category:"asian",arr:"2e",zone:true,price:16,priceLabel:"~12-20€",resa:true,resaNote:"Résa conseillée — souvent complet",address:"86 rue de Richelieu",maps:"https://maps.google.com/?q=SuperMian+86+rue+de+Richelieu+Paris",url:"https://www.thefork.fr/restaurant/supermian-r712032",emoji:"🍝",desc:"Nouilles et raviolis maison dans un décor vieux Shanghai"},
+  {id:7,name:"Mala Boom",cuisine:"Asiatique",category:"asian",arr:"11e",zone:false,price:27,priceLabel:"~20-35€",resa:true,resaNote:"Résa obligatoire en ligne",address:"42 rue Jean-Pierre Timbaud",maps:"https://maps.google.com/?q=Mala+Boom+Paris",url:"https://www.malaboom.com/reserver-une-table",emoji:"🌶️",desc:"Wok sichuanais épicé à composer soi-même, plat à partager"},
+  {id:8,name:"Tiger Tiger",cuisine:"Asiatique",category:"asian",arr:"10e",zone:false,price:25,priceLabel:"~20-30€",resa:true,resaNote:"Résa disponible",address:"15 rue René Boulanger",maps:"https://maps.google.com/?q=Tiger+Tiger+15+rue+Rene+Boulanger+Paris",url:null,emoji:"🥟",desc:"Dim sum et canard laqué, bistrot style Hong Kong"},
+  {id:9,name:"D Noodles 70",cuisine:"Asiatique",category:"asian",arr:"3e",zone:false,price:13,priceLabel:"~10-15€",resa:true,resaNote:"Conseillé — petit resto",address:"70 rue Quincampoix",maps:"https://maps.google.com/?q=D+Noodles+70+rue+Quincampoix+Paris",url:"https://www.thefork.fr/restaurant/dnoodles-r845912",emoji:"🍝",desc:"Nouilles chinoises maison près de Beaubourg"},
+  {id:10,name:"Noodle Inn",cuisine:"Asiatique",category:"asian",arr:"2e",zone:true,price:17,priceLabel:"~15-20€",resa:true,resaNote:"Résa disponible",address:"23 boulevard des Italiens",maps:"https://maps.google.com/?q=Noodle+Inn+23+boulevard+des+Italiens+Paris",url:null,emoji:"🍝",desc:"Street food sichuanaise, nouilles tirées à la main devant vous"},
+  {id:11,name:"Fellows",cuisine:"Italien",category:"italian",arr:"6e",zone:false,price:25,priceLabel:"~20-30€",resa:true,resaNote:"Résa obligatoire en ligne",address:"2 rue Félibien",maps:"https://maps.google.com/?q=Fellows+2+rue+Felibien+Paris",url:"https://fellows-restaurants.com/",emoji:"🍝",desc:"Pâtes fraîches 100% végétariennes, carte courte et délicieuse"},
+  {id:12,name:"Madonna",cuisine:"Italien",category:"italian",arr:"9e",zone:true,price:35,priceLabel:"~30-40€",resa:true,resaNote:"Résa conseillée",address:"52 rue Lafayette",maps:"https://maps.google.com/?q=Madonna+52+rue+Lafayette+Paris",url:"https://www.madonna-osteria.fr/",emoji:"🍝",desc:"Osteria milanaise, osso buco et linguine alle vongole"},
+  {id:13,name:"Red Sauce",cuisine:"Italien",category:"italian",arr:"10e",zone:false,price:30,priceLabel:"~25-35€",resa:true,resaNote:"Résa conseillée",address:"9 Cour des Petites Écuries",maps:"https://maps.google.com/?q=Red+Sauce+9+Cour+des+Petites+Ecuries+Paris",url:null,emoji:"🍕",desc:"Italian joint italo-américain, ambiance diner new-yorkais"},
+  {id:14,name:"Miglia",cuisine:"Italien",category:"italian",arr:"8e",zone:true,price:37,priceLabel:"~30-45€",resa:true,resaNote:"Résa disponible",address:"233 bis rue du Fg Saint-Honoré",maps:"https://maps.google.com/?q=Miglia+233+rue+Faubourg+Saint-Honore+Paris",url:"https://www.miglia.paris/",emoji:"🍕",desc:"Trattoria chic place des Ternes, pizzas et pâtes authentiques"},
+  {id:15,name:"Il Palazzo",cuisine:"Italien",category:"italian",arr:"9e",zone:true,price:25,priceLabel:"~20-30€",resa:true,resaNote:"Résa disponible",address:"17 rue Lafayette",maps:"https://maps.google.com/?q=Il+Palazzo+17+rue+Lafayette+Paris",url:null,emoji:"🍕",desc:"Restaurant casher italien, pizzas et pâtes"},
+  {id:16,name:"Kubaba",cuisine:"Méditerranéen",category:"world",arr:"1er",zone:true,price:33,priceLabel:"~25-40€",resa:true,resaNote:"Résa disponible",address:"3 rue Gomboust",maps:"https://maps.google.com/?q=Kubaba+3+rue+Gomboust+Paris",url:"https://www.daliagroup.com/kubaba-paris",emoji:"🫙",desc:"Cuisine levantine sur 3 étages, mezzés et bar caché"},
+  {id:17,name:"Tbilissi",cuisine:"Géorgien",category:"world",arr:"2e",zone:true,price:29,priceLabel:"~25-35€",resa:true,resaNote:"Résa conseillée",address:"186 rue Saint-Denis",maps:"https://maps.google.com/?q=Restaurant+Georgien+Tbilissi+186+rue+Saint-Denis+Paris",url:"https://www.thefork.fr/restaurant/restaurant-georgien-tbillisi-r843335",emoji:"🫕",desc:"Khinkali et khachapuri, cuisine géorgienne familiale"},
+  {id:18,name:"Manhattn's Burgers",cuisine:"Burger",category:"world",arr:"2e",zone:true,price:25,priceLabel:"~20-30€",resa:true,resaNote:"Résa disponible",address:"59 rue Montorgueil",maps:"https://maps.google.com/?q=Manhattns+Burgers+59+rue+Montorgueil+Paris",url:"https://www.manhattns.com/fr",emoji:"🍔",desc:"Burgers premium flame-grilled, ambiance New York"},
+  {id:19,name:"Le Nesle",cuisine:"Français",category:"world",arr:"6e",zone:false,price:20,priceLabel:"~15-25€",resa:true,resaNote:"Résa possible",address:"22 rue Dauphine",maps:"https://maps.google.com/?q=Le+Nesle+22+rue+Dauphine+Paris",url:null,emoji:"🥩",desc:"Brasserie parisienne typique, terrasse rue Dauphine"},
+  {id:20,name:"Princesse Café",cuisine:"Fusion",category:"world",arr:"10e",zone:false,price:20,priceLabel:"~15-25€",resa:true,resaNote:"Résa conseillée",address:"32 rue Bichat",maps:"https://maps.google.com/?q=Princesse+Cafe+32+rue+Bichat+Paris",url:null,emoji:"☕",desc:"Street food créative, brunch et ambiance canal Saint-Martin"},
+];
+
+const questions = [
+  {id:"asian",round:1,text:"Ce soir, de l'asiatique ça te dirait ?",sub:"Nouilles, wok, dim sum, épicé…",icon:"🥢"},
+  {id:"japan-korea",round:1,text:"Et du japonais ou du coréen ?",sub:"Ramen, gyoza, poulet frit, K-BBQ…",icon:"🍜"},
+  {id:"italian",round:1,text:"Un petit italien ce soir ?",sub:"Pâtes fraîches, pizza, osteria…",icon:"🍝"},
+  {id:"world",round:1,text:"Quelque chose d'un peu différent ?",sub:"Géorgien, levantin, burger, brasserie…",icon:"🌍"},
+  {id:"budget",round:2,type:"multirange",text:"Quel budget ce soir ?",sub:"Sélectionne une ou plusieurs tranches",icon:"💸",
+    ranges:[{label:"Moins de 15€",min:0,max:15},{label:"15 — 25€",min:15,max:25},{label:"25 — 35€",min:25,max:35},{label:"35€ et plus",min:35,max:999}]},
+  {id:"zone",round:3,text:"On reste dans nos quartiers habituels ?",sub:"1er, 2e, 8e, 9e, Châtelet",icon:"📍"},
+];
+
+const roundLabel = n => n===1?"Les cuisines":n===2?"Le budget":"Le quartier";
+const catClass = c => ({asian:"cat-asian","japan-korea":"cat-japan-korea",italian:"cat-italian",world:"cat-world"}[c]||"");
+
+let state = {phase:"intro",currentQ:0,answers:{},selectedRanges:[],results:[],selectedResto:null,sortBy:null};
+
+function applyFilters(ans,ranges){
+  let pool=[...restaurants];
+  const wanted=["asian","japan-korea","italian","world"].filter(c=>ans[c]===true);
+  if(wanted.length>0) pool=pool.filter(r=>wanted.includes(r.category));
+  if(ranges&&ranges.length>0) pool=pool.filter(r=>ranges.some(rg=>r.price>=rg.min&&r.price<rg.max));
+  if(ans["zone"]===true) pool=pool.filter(r=>r.zone===true);
+  return pool;
+}
+
+function getSorted(list,sortBy){
+  if(!sortBy) return list;
+  if(sortBy==="price") return [...list].sort((a,b)=>a.price-b.price);
+  if(sortBy==="arr") return [...list].sort((a,b)=>a.arr.localeCompare(b.arr));
+  return list;
+}
+
+function render(){
+  const app=document.getElementById("app");
+  const s=state;
+
+  if(s.phase==="intro"){
+    app.innerHTML=`
+      <p class="logo-sub">La Table</p>
+      <p class="logo-main">des <em>Bebs</em></p>
+      <div class="divider"></div>
+      <p class="intro-text">Une manière plus ludique de choisir 😉</p>
+      <div style="text-align:center;font-size:38px;margin-bottom:2rem">🌸</div>
+      <button class="btn-primary" onclick="startQuiz()">On commence →</button>
+      <p style="text-align:center;font-size:11px;color:#C9B0AA;margin-top:1.2rem;letter-spacing:.08em">${restaurants.length} adresses sélectionnées pour vous</p>
+    `;
+    return;
+  }
+
+  if(s.phase==="quiz"){
+    const q=questions[s.currentQ];
+    const progress=(s.currentQ/questions.length)*100;
+    let questionHTML;
+    if(q.type==="multirange"){
+      const rangesHTML=q.ranges.map(r=>{
+        const sel=s.selectedRanges.find(sr=>sr.label===r.label);
+        return `<button class="range-btn${sel?" selected":""}" onclick="toggleRange(${JSON.stringify(r).replace(/"/g,'&quot;')})">${r.label}</button>`;
+      }).join("");
+      questionHTML=`
+        <div class="range-grid">${rangesHTML}</div>
+        <button class="btn-continue" onclick="continueRanges()">${s.selectedRanges.length===0?"Peu importe →":"Continuer →"}</button>
+      `;
+    } else {
+      questionHTML=`
+        <div class="btn-row">
+          <button class="btn-yes" onclick="answer('${q.id}',true)">Oui ✓</button>
+          <button class="btn-no" onclick="answer('${q.id}',false)">Non</button>
+        </div>
+      `;
+    }
+    app.innerHTML=`
+      <p class="logo-sub" style="padding-top:1rem">La Table des <em style="font-style:italic">Bebs</em></p>
+      <div class="divider"></div>
+      <p class="round-badge">${roundLabel(q.round)}</p>
+      <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
+      ${s.currentQ>0?`<button class="btn-back" onclick="goBack()">← Revenir en arrière</button>`:""}
+      <div class="question-card">
+        <div class="q-decor">${q.icon}</div>
+        <div class="q-icon">${q.icon}</div>
+        <p class="q-text">${q.text}</p>
+        <p class="q-sub">${q.sub}</p>
+        ${questionHTML}
+      </div>
+      <p class="counter">${s.currentQ+1} / ${questions.length}</p>
+    `;
+    return;
+  }
+
+  if(s.phase==="results"&&!s.selectedResto){
+    if(s.results.length===0){
+      app.innerHTML=`
+        <p class="logo-sub" style="padding-top:1rem">La Table des <em style="font-style:italic">Bebs</em></p>
+        <div class="divider"></div>
+        <div class="empty-state">
+          <div class="empty-emoji">😅</div>
+          <p class="empty-text">Là tu forces un peu…</p>
+          <p class="empty-sub">On a rien qui matche, retente ta chance !</p>
+          <button class="btn-primary" onclick="restart()">Recommencer →</button>
+        </div>
+      `;
+      return;
+    }
+    const sorted=getSorted(s.results,s.sortBy);
+    const cardsHTML=sorted.map(r=>`
+      <div class="resto-card ${catClass(r.category)}" onclick="showDetail(${r.id})">
+        <p class="card-hint">Appuie pour en savoir plus →</p>
+        <div class="card-top">
+          <div class="card-emoji">${r.emoji}</div>
+          <div>
+            <p class="card-name">${r.name}</p>
+            <p class="card-cuisine">${r.cuisine}</p>
+          </div>
+        </div>
+        <p class="card-desc">${r.desc}</p>
+        <div class="card-footer">
+          <span class="pill">Paris ${r.arr}</span>
+          <span class="pill">${r.priceLabel}</span>
+          <span class="pill ${r.resa?"pill-resa":"pill-resa-no"}">${r.resa?"Réservable":"Sans résa"}</span>
+        </div>
+      </div>
+    `).join("");
+    app.innerHTML=`
+      <p class="logo-sub" style="padding-top:1rem">La Table des <em style="font-style:italic">Bebs</em></p>
+      <div class="divider"></div>
+      <p class="results-title">Votre sélection du soir</p>
+      <p class="results-sub">${s.results.length} adresse${s.results.length>1?"s":""} pour vous ce soir</p>
+      <div class="sort-row">
+        <button class="sort-btn${s.sortBy==="price"?" active":""}" onclick="setSort('price')">Prix ↑</button>
+        <button class="sort-btn${s.sortBy==="arr"?" active":""}" onclick="setSort('arr')">Arrondissement</button>
+      </div>
+      <div class="card-grid">${cardsHTML}</div>
+      <button class="btn-restart" onclick="restart()">↩ Recommencer</button>
+    `;
+    return;
+  }
+
+  if(s.phase==="results"&&s.selectedResto){
+    const r=s.selectedResto;
+    const resaBtn=r.url
+      ?`<a class="btn-resa" href="${r.url}" target="_blank" rel="noopener noreferrer">Réserver une table →</a>`
+      :`<button class="btn-resa btn-resa-disabled" disabled>Réservation par téléphone</button>`;
+    app.innerHTML=`
+      <div class="detail-wrap">
+        <button class="detail-back" onclick="closeDetail()">← Retour aux résultats</button>
+        <div class="detail-card">
+          <div class="detail-emoji">${r.emoji}</div>
+          <p class="detail-name">${r.name}</p>
+          <p class="detail-cuisine">${r.cuisine}</p>
+          <p class="detail-desc">${r.desc}</p>
+          <div class="detail-row"><span class="detail-label">Adresse</span><span class="detail-val">${r.address}, Paris ${r.arr}</span></div>
+          <div class="detail-row"><span class="detail-label">Prix moyen</span><span class="detail-val">${r.priceLabel} / pers.</span></div>
+          <div class="detail-row"><span class="detail-label">Réservation</span><span class="detail-val">${r.resaNote}</span></div>
+          <a class="btn-maps" href="${r.maps}" target="_blank" rel="noopener noreferrer">📍 Ouvrir dans Google Maps</a>
+          ${resaBtn}
+        </div>
+      </div>
+    `;
+  }
+}
+
+function startQuiz(){ state.phase="quiz"; render(); }
+function restart(){ state={phase:"intro",currentQ:0,answers:{},selectedRanges:[],results:[],selectedResto:null,sortBy:null}; render(); }
+
+function goBack(){
+  if(state.currentQ===0){ state.phase="intro"; render(); return; }
+  const prevQ=questions[state.currentQ-1];
+  delete state.answers[prevQ.id];
+  if(prevQ.id==="budget") state.selectedRanges=[];
+  state.currentQ--;
+  render();
+}
+
+function answer(qId,val){
+  state.answers[qId]=val;
+  const next=state.currentQ+1;
+  if(next>=questions.length){ state.results=applyFilters(state.answers,state.selectedRanges); state.phase="results"; }
+  else { state.currentQ=next; }
+  render();
+}
+
+function toggleRange(range){
+  const idx=state.selectedRanges.findIndex(r=>r.label===range.label);
+  if(idx>-1) state.selectedRanges.splice(idx,1);
+  else state.selectedRanges.push(range);
+  render();
+}
+
+function continueRanges(){
+  state.answers["budget"]=state.selectedRanges;
+  const next=state.currentQ+1;
+  if(next>=questions.length){ state.results=applyFilters(state.answers,state.selectedRanges); state.phase="results"; }
+  else { state.currentQ=next; }
+  render();
+}
+
+function setSort(by){ state.sortBy=state.sortBy===by?null:by; render(); }
+function showDetail(id){ state.selectedResto=restaurants.find(r=>r.id===id); render(); window.scrollTo(0,0); }
+function closeDetail(){ state.selectedResto=null; render(); window.scrollTo(0,0); }
+
+render();
+</script>
+</body>
+</html>
